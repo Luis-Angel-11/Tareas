@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UTP - Sistema de Matrícula</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f6fa;
+    color: #222;
+}
+
+/* ================= HEADER ================= */
+
+header {
+    height: 70px;
+    background: #082078;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.student {
+    font-size: 14px;
+}
+
+/* ================= PANTALLAS ================= */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+/* ================= LOGIN ================= */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6fa;
+}
+
+.login-card {
+    background: white;
+    width: 390px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.10);
+}
+
+.login-card h1 {
+    color: #082078;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* ================= FORMULARIOS ================= */
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 18px;
+}
+
+/* ================= BOTONES ================= */
+
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 11px 18px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.primary {
+    background: #082078;
+    color: white;
+}
+
+.primary:hover {
+    background: #06185c;
+}
+
+.secondary {
+    background: white;
+    color: #082078;
+    border: 1px solid #082078;
+}
+
+.danger {
+    background: white;
+    color: #c62828;
+    border: 1px solid #c62828;
+}
+
+button:disabled {
+    background: #ddd;
+    color: #888;
+    border: none;
+    cursor: not-allowed;
+}
+
+/* ================= TITULOS ================= */
+
+.title {
+    margin-bottom: 8px;
+    color: #082078;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* ================= PASOS ================= */
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+}
+
+.step.active {
+    color: #082078;
+    font-weight: bold;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    margin: auto auto 7px;
+    border-radius: 50%;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step.active .step-number {
+    background: #082078;
+    color: white;
+}
+
+.step.completed .step-number {
+    background: #2e8b57;
+    color: white;
+}
+
+/* ================= CARD ================= */
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+/* ================= TABLA CURSOS ================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #082078;
+    color: white;
+    padding: 13px;
+    text-align: left;
+    font-size: 14px;
+}
+
+td {
+    padding: 15px 13px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+tr:hover {
+    background: #f8f9fc;
+}
+
+.credits {
+    font-weight: bold;
+    color: #082078;
+    text-align: center;
+}
+
+/* ================= MENSAJES ================= */
+
+.message {
+    display: none;
+    padding: 14px 18px;
+    border-radius: 7px;
+    margin-bottom: 20px;
+}
+
+.message.show {
+    display: block;
+}
+
+.success-message {
+    background: #e9f7ef;
+    color: #176b3a;
+    border: 1px solid #9ad5b4;
+}
+
+.error-message {
+    background: #fdecec;
+    color: #a52222;
+    border: 1px solid #e3a0a0;
+}
+
+.warning-message {
+    background: #fff7df;
+    color: #795600;
+    border: 1px solid #e7ca72;
+}
+
+/* ================= HORARIOS ================= */
+
+.schedule {
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+}
+
+.schedule.available {
+    border-left: 5px solid #2e8b57;
+}
+
+.schedule.full {
+    border-left: 5px solid #c62828;
+    background: #fafafa;
+}
+
+.schedule-info h3 {
+    margin-bottom: 8px;
+}
+
+.schedule-info p {
+    margin-bottom: 6px;
+}
+
+.available-text {
+    color: #23834c;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.full-text {
+    color: #c62828;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/* ================= CURSO SELECCIONADO ================= */
+
+.selected-course {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-course-info h3 {
+    color: #082078;
+    margin-bottom: 7px;
+}
+
+.selected-course-info p {
+    color: #666;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.course-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ================= TOTAL ================= */
+
+.total-box {
+    background: #f5f6fa;
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.total-box strong {
+    color: #082078;
+}
+
+/* ================= RESUMEN ================= */
+
+.summary-course {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+.summary-course h3 {
+    color: #082078;
+    margin-bottom: 8px;
+}
+
+.summary-course p {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* ================= ACCIONES ================= */
+
+.bottom-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* ================= FINAL ================= */
+
+.confirmation-box {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.check {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #e9f7ef;
+    color: #218b51;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.confirmation-box h2 {
+    color: #082078;
+    margin-bottom: 10px;
+}
+
+.confirmation-box p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 750px) {
+
+    header {
+        padding: 0 20px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        padding: 9px 6px;
+    }
+
+    .schedule {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .schedule button {
+        width: 100%;
+    }
+
+    .selected-course {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="login" class="screen active">
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <h1>UTP</h1>
+
+            <p>Sistema de Matrícula</p>
+
+            <label>Usuario</label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Ingresa tu código">
+
+            <label>Contraseña</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Ingresa tu contraseña">
+
+            <button
+                class="primary"
+                style="width:100%;"
+                onclick="login()">
+
+                Iniciar sesión
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HEADER ================= -->
+
+<header id="header" style="display:none;">
+
+    <div class="logo">
+        UTP
+    </div>
+
+    <div class="student">
+        Estudiante: Juan Pérez
+    </div>
+
+</header>
+
+
+<!-- ================= CURSOS ================= -->
+
+<section id="courses" class="screen">
+
+    <div class="container">
+
+        <div class="steps">
+
+            <div class="step active">
+                <div class="step-number">1</div>
+                Cursos
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                Horarios
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                Confirmar
+            </div>
+
+        </div>
+
+        <h1 class="title">
+            Selección de cursos
+        </h1>
+
+        <p class="subtitle">
+            Selecciona el curso que deseas llevar este semestre.
+        </p>
+
+        <div
+            id="courseError"
+            class="message error-message">
+        </div>
+
+        <div
+            id="courseSuccess"
+            class="message success-message">
+        </div>
+
+        <!-- TABLA DE CURSOS -->
+        <div class="card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Curso</th>
+                        <th>Código</th>
+                        <th>Créditos</th>
+                        <th>Semestre</th>
+                        <th>Acción</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="courseTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HORARIOS ================= -->
+
+<section id="schedule" class="screen">
+
+    <div class="container">
+
+        <div class="steps">
+
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                Cursos
+            </div>
+
+            <div class="step active">
+                <div class="step-number">2</div>
+                Horarios
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                Confirmar
+            </div>
+
+        </div>
+
+        <h1 class="title">
+            Selección de horarios
+        </h1>
+
+        <p class="subtitle">
+            Selecciona un horario disponible para el curso.
+        </p>
+
+        <div
+            id="scheduleError"
+            class="message error-message">
+        </div>
+
+        <div
+            id="scheduleList">
+        </div>
+
+        <button
+            class="secondary"
+            onclick="goToCourses()">
+
+            ← Volver a cursos
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CONFIRMAR MATRÍCULA ================= -->
+
+<section id="summary" class="screen">
+
+    <div class="container">
+
+        <div class="steps">
+
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                Cursos
+            </div>
+
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                Horarios
+            </div>
+
+            <div class="step active">
+                <div class="step-number">3</div>
+                Confirmar
+            </div>
+
+        </div>
+
+        <h1 class="title">
+            Confirmar matrícula
+        </h1>
+
+        <p class="subtitle">
+            Revisa los cursos y horarios seleccionados antes de confirmar.
+        </p>
+
+        <div class="card">
+
+            <div id="summaryList">
+            </div>
+
+            <div class="total-box">
+
+                <p>
+                    <strong>Total de cursos:</strong>
+                    <span id="summaryTotalCourses">0</span>
+                </p>
+
+                <p style="margin-top:8px;">
+                    <strong>Total de créditos:</strong>
+                    <span id="summaryTotalCredits">0</span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3 style="margin-bottom:10px;">
+                ¿Qué deseas hacer?
+            </h3>
+
+            <p style="color:#666; margin-bottom:20px;">
+                Puedes agregar más cursos o confirmar tu matrícula.
+            </p>
+
+            <div class="bottom-actions">
+
+                <button
+                    class="secondary"
+                    onclick="goToCourses()">
+
+                    + Agregar más cursos
+
+                </button>
+
+                <button
+                    class="primary"
+                    onclick="confirmEnrollment()">
+
+                    Confirmar matrícula
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MATRÍCULA COMPLETADA ================= -->
+
+<section id="completed" class="screen">
+
+    <div class="container">
+
+        <div class="card confirmation-box">
+
+            <div class="check">
+                ✓
+            </div>
+
+            <h2>
+                ¡Matrícula completada!
+            </h2>
+
+            <p>
+                Los cursos seleccionados fueron registrados correctamente.
+            </p>
+
+            <div
+                style="
+                background:#f5f6fa;
+                padding:20px;
+                border-radius:8px;
+                text-align:left;
+                margin-bottom:25px;
+                ">
+
+                <h3
+                    style="
+                    margin-bottom:15px;
+                    color:#082078;
+                    ">
+
+                    Resumen de matrícula
+
+                </h3>
+
+                <div id="finalCourses"></div>
+
+                <div
+                    style="
+                    border-top:1px solid #ddd;
+                    margin-top:15px;
+                    padding-top:15px;
+                    ">
+
+                    <strong>
+                        Total de créditos:
+                    </strong>
+
+                    <span id="finalCredits"></span>
+
+                </div>
+
+            </div>
+
+            <button
+                class="primary"
+                onclick="restart()">
+
+                Volver al inicio
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================
+   DATOS
+========================= */
+
+const courses = [
+
+    {
+        nombre: "Ingeniería de Software",
+        codigo: "ISW101",
+        creditos: 4,
+        horarios: [
+            {
+                aula: "A305",
+                dias: "Lunes y miércoles",
+                hora: "08:00 - 10:00",
+                vacantes: 10
+            },
+            {
+                aula: "B506",
+                dias: "Martes y jueves",
+                hora: "10:00 - 12:00",
+                vacantes: 7
+            },
+            {
+                aula: "A402",
+                dias: "Viernes",
+                hora: "14:00 - 18:00",
+                vacantes: 5
+            }
+        ]
+    },
+
+    {
+        nombre: "Sistemas de Información",
+        codigo: "SIS202",
+        creditos: 3,
+        horarios: [
+            {
+                aula: "B304",
+                dias: "Lunes y miércoles",
+                hora: "08:00 - 10:00",
+                vacantes: 6
+            },
+            {
+                aula: "A506",
+                dias: "Martes y jueves",
+                hora: "14:00 - 16:00",
+                vacantes: 4
+            },
+            {
+                aula: "B402",
+                dias: "Viernes",
+                hora: "08:00 - 12:00",
+                vacantes: 0
+            }
+        ]
+    },
+
+    {
+        nombre: "Base de Datos",
+        codigo: "BD203",
+        creditos: 4,
+        horarios: [
+            {
+                aula: "A205",
+                dias: "Lunes y miércoles",
+                hora: "10:00 - 12:00",
+                vacantes: 8
+            },
+            {
+                aula: "B506",
+                dias: "Martes y jueves",
+                hora: "08:00 - 10:00",
+                vacantes: 3
+            },
+            {
+                aula: "A306",
+                dias: "Viernes",
+                hora: "14:00 - 18:00",
+                vacantes: 0
+            }
+        ]
+    },
+
+    {
+        nombre: "Gestión de Proyectos",
+        codigo: "GPR204",
+        creditos: 3,
+        horarios: [
+            {
+                aula: "B305",
+                dias: "Martes y jueves",
+                hora: "08:00 - 10:00",
+                vacantes: 9
+            },
+            {
+                aula: "A507",
+                dias: "Viernes",
+                hora: "14:00 - 18:00",
+                vacantes: 6
+            }
+        ]
+    },
+
+    {
+        nombre: "Arquitectura de Computadoras",
+        codigo: "ARC205",
+        creditos: 3,
+        horarios: [
+            {
+                aula: "B204",
+                dias: "Lunes y miércoles",
+                hora: "14:00 - 16:00",
+                vacantes: 4
+            },
+            {
+                aula: "A405",
+                dias: "Sábado",
+                hora: "08:00 - 12:00",
+                vacantes: 2
+            }
+        ]
+    },
+
+    {
+        nombre: "Matemática Discreta",
+        codigo: "MAT206",
+        creditos: 3,
+        horarios: [
+            {
+                aula: "A204",
+                dias: "Lunes y miércoles",
+                hora: "16:00 - 18:00",
+                vacantes: 5
+            },
+            {
+                aula: "B306",
+                dias: "Sábado",
+                hora: "08:00 - 12:00",
+                vacantes: 3
+            }
+        ]
+    }
+
+];
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let selectedCourses = [];
+
+let currentCourse = null;
+
+
+/* =========================
+   CAMBIAR PANTALLA
+========================= */
+
+function showScreen(id) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+    const user = document.getElementById("usuario").value;
+    const password = document.getElementById("password").value;
+
+    if(user === "" || password === "") {
+
+        alert(
+            "Completa tu usuario y contraseña para iniciar sesión."
+        );
+
+        return;
+    }
+
+    document.getElementById("header").style.display = "flex";
+
+    renderCourses();
+
+    showScreen("courses");
+}
+
+
+/* =========================
+   MOSTRAR CURSOS
+========================= */
+
+function renderCourses() {
+
+    const table = document.getElementById("courseTable");
+
+    table.innerHTML = "";
+
+    courses.forEach((course, index) => {
+
+        const alreadySelected =
+            selectedCourses.some(
+                item => item.codigo === course.codigo
+            );
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+                <strong>
+                    ${course.nombre}
+                </strong>
+            </td>
+
+            <td>
+                ${course.codigo}
+            </td>
+
+            <td class="credits">
+                ${course.creditos}
+            </td>
+
+            <td>
+                2026-II
+            </td>
+
+            <td>
+
+                <button
+                    class="${alreadySelected ? "secondary" : "primary"}"
+                    ${alreadySelected ? "disabled" : ""}
+                    onclick="selectCourse(${index})">
+
+                    ${alreadySelected
+                        ? "Seleccionado"
+                        : "Seleccionar"}
+
+                </button>
+
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================
+   SELECCIONAR CURSO
+========================= */
+
+function selectCourse(index) {
+
+    const course = courses[index];
+
+    const alreadySelected =
+        selectedCourses.some(
+            item => item.codigo === course.codigo
+        );
+
+    if(alreadySelected) {
+
+        showCourseError(
+            "Este curso ya fue seleccionado."
+        );
+
+        return;
+    }
+
+    currentCourse = course;
+
+    renderSchedules();
+
+    showScreen("schedule");
+}
+
+
+/* =========================
+   MOSTRAR HORARIOS
+========================= */
+
+function renderSchedules() {
+
+    const container =
+        document.getElementById("scheduleList");
+
+    container.innerHTML = `
+
+        <div class="card">
+
+            <h2 style="margin-bottom:8px;">
+                ${currentCourse.nombre}
+            </h2>
+
+            <p style="
+                color:#666;
+                margin-bottom:20px;
+            ">
+
+                ${currentCourse.codigo}
+                ·
+                ${currentCourse.creditos} créditos
+
+            </p>
+
+        </div>
+
+    `;
+
+
+    currentCourse.horarios.forEach(
+        (schedule, index) => {
+
+            const isFull =
+                schedule.vacantes === 0;
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                `schedule ${
+                    isFull
+                    ? "full"
+                    : "available"
+                }`;
+
+            div.innerHTML = `
+
+                <div class="schedule-info">
+
+                    <h3>
+                        Aula ${schedule.aula}
+                    </h3>
+
+                    <p>
+                        ${schedule.dias}
+                        ·
+                        ${schedule.hora}
+                    </p>
+
+                    ${
+                        isFull
+
+                        ? `
+                            <span class="full-text">
+                                ● 0 vacantes
+                            </span>
+                          `
+
+                        : `
+                            <span class="available-text">
+                                ● Disponible ·
+                                ${schedule.vacantes}
+                                vacantes
+                            </span>
+                          `
+                    }
+
+                </div>
+
+
+                ${
+                    isFull
+
+                    ? `
+                        <button disabled>
+                            Sin vacantes
+                        </button>
+                      `
+
+                    : `
+                        <button
+                            class="primary"
+                            onclick="chooseSchedule(${index})">
+
+                            Seleccionar
+
+                        </button>
+                      `
+                }
+
+            `;
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ELEGIR HORARIO
+========================= */
+
+function chooseSchedule(index) {
+
+    const schedule =
+        currentCourse.horarios[index];
+
+
+    /*
+        Comprobar cruce de horario
+    */
+
+    const conflict =
+        selectedCourses.find(course => {
+
+            return (
+                course.dias === schedule.dias &&
+                course.hora === schedule.hora
+            );
+
+        });
+
+
+    if(conflict) {
+
+        showScheduleError(
+
+            `⚠️ Cruce de horario: este horario `
+            + `coincide con "${conflict.nombre}". `
+            + `Selecciona otro horario.`
+
+        );
+
+        return;
+    }
+
+
+    /*
+        Agregar curso
+    */
+
+    selectedCourses.push({
+
+        nombre:
+            currentCourse.nombre,
+
+        codigo:
+            currentCourse.codigo,
+
+        creditos:
+            currentCourse.creditos,
+
+        aula:
+            schedule.aula,
+
+        dias:
+            schedule.dias,
+
+        hora:
+            schedule.hora,
+
+        vacantes:
+            schedule.vacantes
+
+    });
+
+
+    /*
+        Ir directamente a
+        Confirmar matrícula
+    */
+
+    renderSummary();
+
+    showScreen("summary");
+}
+
+
+/* =========================
+   RESUMEN
+========================= */
+
+function renderSummary() {
+
+    const container =
+        document.getElementById("summaryList");
+
+    container.innerHTML = "";
+
+    selectedCourses.forEach(
+        (course, index) => {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "summary-course";
+
+            div.innerHTML = `
+
+                <h3>
+                    ${index + 1}.
+                    ${course.nombre}
+                </h3>
+
+                <p>
+                    <strong>Código:</strong>
+                    ${course.codigo}
+                </p>
+
+                <p>
+                    <strong>Créditos:</strong>
+                    ${course.creditos}
+                </p>
+
+                <p>
+                    <strong>Aula:</strong>
+                    ${course.aula}
+                </p>
+
+                <p>
+                    <strong>Horario:</strong>
+                    ${course.dias}
+                    ·
+                    ${course.hora}
+                </p>
+
+                <div style="margin-top:12px;">
+
+                    <button
+                        class="secondary"
+                        onclick="modifyCourse(${index})">
+
+                        Modificar
+
+                    </button>
+
+                    <button
+                        class="danger"
+                        onclick="removeCourse(${index})">
+
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            `;
+
+            container.appendChild(div);
+
+        }
+    );
+
+
+    document.getElementById(
+        "summaryTotalCourses"
+    ).textContent =
+        selectedCourses.length;
+
+
+    document.getElementById(
+        "summaryTotalCredits"
+    ).textContent =
+        getTotalCredits();
+
+}
+
+
+/* =========================
+   TOTAL CRÉDITOS
+========================= */
+
+function getTotalCredits() {
+
+    return selectedCourses.reduce(
+        (total, course) =>
+            total + course.creditos,
+        0
+    );
+
+}
+
+
+/* =========================
+   MODIFICAR
+========================= */
+
+function modifyCourse(index) {
+
+    const course =
+        selectedCourses[index];
+
+    /*
+        Eliminar temporalmente
+        para poder seleccionar
+        otro horario.
+    */
+
+    selectedCourses.splice(index, 1);
+
+    currentCourse =
+        courses.find(
+            item =>
+                item.codigo === course.codigo
+        );
+
+    renderSchedules();
+
+    showScreen("schedule");
+}
+
+
+/* =========================
+   ELIMINAR
+========================= */
+
+function removeCourse(index) {
+
+    const course =
+        selectedCourses[index];
+
+    const confirmDelete =
+        confirm(
+            `¿Deseas eliminar "${course.nombre}" de tu matrícula?`
+        );
+
+    if(!confirmDelete) {
+        return;
+    }
+
+    selectedCourses.splice(index, 1);
+
+    renderSummary();
+
+}
+
+
+/* =========================
+   VOLVER A CURSOS
+========================= */
+
+function goToCourses() {
+
+    renderCourses();
+
+    showScreen("courses");
+
+}
+
+
+/* =========================
+   CONFIRMAR MATRÍCULA
+========================= */
+
+function confirmEnrollment() {
+
+    if(selectedCourses.length === 0) {
+
+        alert(
+            "Debes seleccionar al menos un curso."
+        );
+
+        return;
+    }
+
+
+    const container =
+        document.getElementById("finalCourses");
+
+    container.innerHTML = "";
+
+
+    selectedCourses.forEach(course => {
+
+        const div =
+            document.createElement("div");
+
+        div.style.padding = "12px 0";
+        div.style.borderBottom =
+            "1px solid #ddd";
+
+        div.innerHTML = `
+
+            <strong>
+                ${course.nombre}
+            </strong>
+
+            <br>
+
+            <span style="color:#666;">
+
+                ${course.codigo}
+                ·
+                ${course.creditos} créditos
+                ·
+                Aula ${course.aula}
+                ·
+                ${course.dias}
+                ·
+                ${course.hora}
+
+            </span>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+
+    document.getElementById(
+        "finalCredits"
+    ).textContent =
+        getTotalCredits();
+
+
+    showScreen("completed");
+
+}
+
+
+/* =========================
+   MENSAJES
+========================= */
+
+function showCourseError(message) {
+
+    const element =
+        document.getElementById(
+            "courseError"
+        );
+
+    element.textContent =
+        message;
+
+    element.classList.add("show");
+
+    setTimeout(() => {
+
+        element.classList.remove("show");
+
+    }, 4000);
+
+}
+
+
+function showScheduleError(message) {
+
+    const element =
+        document.getElementById(
+            "scheduleError"
+        );
+
+    element.textContent =
+        message;
+
+    element.classList.add("show");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    setTimeout(() => {
+
+        element.classList.remove("show");
+
+    }, 5000);
+
+}
+
+
+/* =========================
+   REINICIAR
+========================= */
+
+function restart() {
+
+    selectedCourses = [];
+
+    currentCourse = null;
+
+    document.getElementById(
+        "header"
+    ).style.display = "none";
+
+    document.getElementById(
+        "usuario"
+    ).value = "";
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+    showScreen("login");
+
+}
+
+</script>
+
+</body>
+</html>

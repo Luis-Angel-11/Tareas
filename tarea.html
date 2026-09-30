@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UTP - Sistema de Matrícula</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        /* =========================
+           ENCABEZADO
+        ========================= */
+
+        .header {
+            background: #082078;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .student {
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           CONTENEDOR
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+
+        /* =========================
+           PANTALLAS
+        ========================= */
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+
+        /* =========================
+           TARJETAS
+        ========================= */
+
+        .card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 5px;
+
+            box-shadow:
+                0 2px 7px rgba(0,0,0,0.12);
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           TEXTOS
+        ========================= */
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+
+        /* =========================
+           FORMULARIOS
+        ========================= */
+
+        label {
+            display: block;
+
+            margin: 15px 0 7px;
+
+            font-weight: bold;
+        }
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #aaa;
+
+            border-radius: 3px;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           BOTONES
+        ========================= */
+
+        button {
+
+            padding: 11px 20px;
+
+            border: none;
+
+            border-radius: 3px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            margin-top: 20px;
+        }
+
+        .primary {
+
+            background: #082078;
+
+            color: white;
+        }
+
+        .secondary {
+
+            background: #ddd;
+
+            color: #333;
+        }
+
+        .danger {
+
+            background: #c62828;
+
+            color: white;
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login {
+
+            max-width: 430px;
+
+            margin: 80px auto;
+        }
+
+        .login h1 {
+
+            text-align: center;
+
+            color: #082078;
+        }
+
+
+        /* =========================
+           CURSOS
+        ========================= */
+
+        .course {
+
+            border: 1px solid #ccc;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            background: #fafafa;
+        }
+
+        .course-title {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .course-info {
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =========================
+           HORARIOS
+        ========================= */
+
+        .schedule {
+
+            border: 1px solid #ccc;
+
+            padding: 15px;
+
+            margin: 12px 0;
+        }
+
+        .schedule input {
+
+            width: auto;
+
+            margin-right: 10px;
+        }
+
+        .schedule label {
+
+            font-weight: normal;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           RESUMEN
+        ========================= */
+
+        .summary {
+
+            border: 1px solid #bbb;
+
+            padding: 20px;
+
+            margin-top: 20px;
+
+            background: #fafafa;
+        }
+
+
+        /* =========================
+           AVISO
+        ========================= */
+
+        .warning {
+
+            background: #fff3cd;
+
+            border: 1px solid #e0c36c;
+
+            padding: 15px;
+
+            margin-top: 20px;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+
+            background: #f8d7da;
+
+            border: 1px solid #d99aa0;
+
+            padding: 20px;
+
+            color: #721c24;
+
+            margin-top: 20px;
+        }
+
+
+        /* =========================
+           NAVEGACIÓN
+        ========================= */
+
+        .breadcrumb {
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           BOTONES CONFUSOS
+           
+           Se mantienen así
+           intencionalmente porque
+           representan el prototipo
+           ANTES.
+        ========================= */
+
+        .confusing-buttons {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+        .confusing-buttons button {
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           ÉXITO
+        ========================= */
+
+        .success {
+
+            background: #d4edda;
+
+            border: 1px solid #a8d5b2;
+
+            padding: 20px;
+
+            margin-top: 20px;
+        }
+
+
+        /* =========================
+           PIE DE PÁGINA
+        ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ENCABEZADO
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+        UTP
+    </div>
+
+    <div class="student">
+        Sistema de Matrícula
+    </div>
+
+</header>
+
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     PANTALLA 1
+     INICIO DE SESIÓN
+===================================================== -->
+
+<section id="login" class="screen active">
+
+    <div class="card login">
+
+        <h1>
+            UTP
+        </h1>
+
+        <h2>
+            Iniciar sesión
+        </h2>
+
+
+        <label>
+            Usuario
+        </label>
+
+        <input
+            type="text"
+            placeholder="Ingrese su usuario"
+        >
+
+
+        <label>
+            Contraseña
+        </label>
+
+        <input
+            type="password"
+            placeholder="Ingrese su contraseña"
+        >
+
+
+        <button
+            class="primary"
+            onclick="showScreen('courses')"
+        >
+            Ingresar
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 2
+     BUSCAR CURSOS
+===================================================== -->
+
+<section id="courses" class="screen">
+
+
+    <div class="breadcrumb">
+
+        Inicio / Matrícula / Cursos
+
+    </div>
+
+
+    <div class="card">
+
+        <h1>
+            Buscar cursos
+        </h1>
+
+
+        <label>
+            Periodo académico
+        </label>
+
+        <select>
+
+            <option>
+                2026 - 2
+            </option>
+
+        </select>
+
+
+        <label>
+            Buscar curso
+        </label>
+
+        <input
+            type="text"
+            placeholder="Ingrese código o nombre del curso"
+        >
+
+
+        <button class="primary">
+            Buscar
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2>
+            Resultados
+        </h2>
+
+
+        <!-- CURSO 1 -->
+
+        <div class="course">
+
+            <div class="course-title">
+
+                Ingeniería de Software
+
+            </div>
+
+
+            <div class="course-info">
+
+                Código: ISW101
+
+            </div>
+
+
+            <div class="course-info">
+
+                Créditos: 4
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="seleccionarCurso(
+                    'Ingeniería de Software',
+                    'ISW101'
+                )"
+            >
+
+                Seleccionar
+
+            </button>
+
+        </div>
+
+
+
+        <!-- CURSO 2 -->
+
+        <div class="course">
+
+            <div class="course-title">
+
+                Sistemas de Información
+
+            </div>
+
+
+            <div class="course-info">
+
+                Código: SIS202
+
+            </div>
+
+
+            <div class="course-info">
+
+                Créditos: 3
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="seleccionarCurso(
+                    'Sistemas de Información',
+                    'SIS202'
+                )"
+            >
+
+                Seleccionar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 3
+     SELECCIONAR HORARIO
+===================================================== -->
+
+<section id="schedule" class="screen">
+
+
+    <div class="breadcrumb">
+
+        Inicio /
+        Matrícula /
+        Cursos /
+        Horarios
+
+    </div>
+
+
+    <div class="card">
+
+
+        <h1>
+            Seleccionar horario
+        </h1>
+
+
+        <p>
+
+            Curso:
+
+            <strong id="nombreCursoHorario">
+                -
+            </strong>
+
+        </p>
+
+
+        <p>
+
+            Código:
+
+            <strong id="codigoCursoHorario">
+                -
+            </strong>
+
+        </p>
+
+
+
+        <!-- HORARIO LLENO -->
+
+        <div class="schedule">
+
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="horario"
+                    value="lleno"
+                    data-horario="Lunes y Miércoles - 8:00 a.m. - 10:00 a.m."
+                >
+
+
+                Sección A -
+
+                Lunes y Miércoles
+
+                8:00 a.m. - 10:00 a.m.
+
+            </label>
+
+
+            <p>
+
+                Docente:
+
+                Juan Pérez
+
+            </p>
+
+
+            <p>
+
+                Vacantes disponibles:
+
+                <strong>0</strong>
+
+            </p>
+
+        </div>
+
+
+
+        <!-- HORARIO DISPONIBLE -->
+
+        <div class="schedule">
+
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="horario"
+                    value="disponible"
+                    data-horario="Martes y Jueves - 10:00 a.m. - 12:00 p.m."
+                >
+
+
+                Sección B -
+
+                Martes y Jueves
+
+                10:00 a.m. - 12:00 p.m.
+
+            </label>
+
+
+            <p>
+
+                Docente:
+
+                María Torres
+
+            </p>
+
+
+            <p>
+
+                Vacantes disponibles:
+
+                <strong>12</strong>
+
+            </p>
+
+        </div>
+
+
+
+        <!--
+            IMPORTANTE:
+
+            NO se valida aquí si el horario
+            está lleno.
+
+            Esto es intencional para representar
+            el problema del prototipo ANTES.
+        -->
+
+
+        <div class="confusing-buttons">
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('courses')"
+            >
+
+                Atrás
+
+            </button>
+
+
+            <button
+                class="primary"
+                onclick="continueSchedule()"
+            >
+
+                Continuar
+
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('courses')"
+            >
+
+                Volver
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 4
+     CURSO AGREGADO
+===================================================== -->
+
+<section id="added" class="screen">
+
+
+    <div class="breadcrumb">
+
+        Inicio /
+        Matrícula /
+        Cursos seleccionados
+
+    </div>
+
+
+    <div class="card">
+
+
+        <h1>
+            Cursos seleccionados
+        </h1>
+
+
+
+        <!--
+            No mostramos una confirmación clara
+            de "Curso agregado correctamente".
+
+            Esto mantiene el problema del ANTES.
+        -->
+
+
+        <div class="course">
+
+
+            <div
+                class="course-title"
+                id="nombreCursoAgregado"
+            >
+
+                -
+
+            </div>
+
+
+            <div class="course-info">
+
+                Código:
+
+                <span id="codigoCursoAgregado">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="course-info">
+
+                Horario:
+
+                <span id="horarioCursoAgregado">
+                    -
+                </span>
+
+            </div>
+
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('schedule')"
+            >
+
+                Modificar
+
+            </button>
+
+        </div>
+
+
+
+        <div class="confusing-buttons">
+
+
+            <button
+                class="primary"
+                onclick="showScreen('confirmation')"
+            >
+
+                Continuar
+
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('courses')"
+            >
+
+                Agregar otro curso
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 5
+     CONFIRMACIÓN
+===================================================== -->
+
+<section id="confirmation" class="screen">
+
+
+    <div class="breadcrumb">
+
+        Inicio /
+        Matrícula /
+        Confirmación
+
+    </div>
+
+
+    <div class="card">
+
+
+        <h1>
+            Confirmación
+        </h1>
+
+
+        <p>
+
+            Revise la información antes de finalizar.
+
+        </p>
+
+
+
+        <div class="summary">
+
+
+            <p>
+
+                <strong>
+                    Curso:
+                </strong>
+
+                <span id="nombreCursoConfirmacion">
+                    -
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Código:
+                </strong>
+
+                <span id="codigoCursoConfirmacion">
+                    -
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Horario:
+                </strong>
+
+                <span id="horarioCursoConfirmacion">
+                    -
+                </span>
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="confusing-buttons">
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('added')"
+            >
+
+                Atrás
+
+            </button>
+
+
+            <button
+                class="primary"
+                onclick="finishEnrollment()"
+            >
+
+                Finalizar matrícula
+
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="showScreen('courses')"
+            >
+
+                Cancelar
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 6
+     ERROR TÉCNICO
+===================================================== -->
+
+<section id="error" class="screen">
+
+
+    <div class="card">
+
+
+        <h1>
+            Error en el proceso
+        </h1>
+
+
+        <div class="error">
+
+
+            <strong>
+
+                Se produjo un error durante el proceso.
+
+            </strong>
+
+
+            <br>
+            <br>
+
+
+            Código de error:
+
+            <strong>
+                ERR-0x80123A
+            </strong>
+
+
+            <br>
+            <br>
+
+
+            No se pudo completar la operación solicitada.
+
+
+        </div>
+
+
+
+        <button
+            class="primary"
+            onclick="showScreen('confirmation')"
+        >
+
+            Regresar
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 7
+     ERROR POR HORARIO LLENO
+     
+     APARECE RECIÉN AL FINAL
+===================================================== -->
+
+<section id="lateWarning" class="screen">
+
+
+    <div class="card">
+
+
+        <h1>
+            Revisión de matrícula
+        </h1>
+
+
+
+        <div class="warning">
+
+
+            <strong>
+
+                Se detectó un problema con el horario.
+
+            </strong>
+
+
+            <br>
+            <br>
+
+
+            El horario seleccionado
+            no tiene vacantes disponibles.
+
+
+            <br>
+            <br>
+
+
+            Código:
+
+            <strong>
+                VAC-001
+            </strong>
+
+
+        </div>
+
+
+
+        <p style="margin-top:20px;">
+
+            Debe regresar y seleccionar otro horario.
+
+        </p>
+
+
+
+        <button
+            class="primary"
+            onclick="showScreen('schedule')"
+        >
+
+            Regresar
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 8
+     MATRÍCULA PROCESADA
+===================================================== -->
+
+<section id="success" class="screen">
+
+
+    <div class="card">
+
+
+        <h1>
+            Proceso finalizado
+        </h1>
+
+
+
+        <div class="success">
+
+            La matrícula fue procesada.
+
+        </div>
+
+
+
+        <button
+            class="primary"
+            onclick="showScreen('courses')"
+        >
+
+            Volver al inicio
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    UTP - Sistema de Matrícula Universitaria
+
+</footer>
+
+
+
+<script>
+
+
+// ======================================================
+// VARIABLES
+// ======================================================
+
+// Curso seleccionado
+let cursoSeleccionado = "";
+
+let codigoCurso = "";
+
+
+// Horario seleccionado
+let horarioSeleccionado = "";
+
+
+// Indica si el horario seleccionado
+// estaba lleno
+let horarioLleno = false;
+
+
+
+// ======================================================
+// CAMBIAR DE PANTALLA
+// ======================================================
+
+function showScreen(screenId) {
+
+
+    const screens =
+        document.querySelectorAll(".screen");
+
+
+    screens.forEach(function(screen) {
+
+        screen.classList.remove("active");
+
+    });
+
+
+    document
+        .getElementById(screenId)
+        .classList.add("active");
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+
+// ======================================================
+// SELECCIONAR CURSO
+// ======================================================
+
+function seleccionarCurso(nombre, codigo) {
+
+
+    // Guardamos el curso
+    cursoSeleccionado = nombre;
+
+    codigoCurso = codigo;
+
+
+    // Mostramos el curso
+    // en la pantalla de horarios
+
+    document
+        .getElementById("nombreCursoHorario")
+        .textContent = cursoSeleccionado;
+
+
+    document
+        .getElementById("codigoCursoHorario")
+        .textContent = codigoCurso;
+
+
+    // Limpiamos cualquier horario
+    // seleccionado anteriormente
+
+    const horarios =
+        document.querySelectorAll(
+            'input[name="horario"]'
+        );
+
+
+    horarios.forEach(function(horario) {
+
+        horario.checked = false;
+
+    });
+
+
+    horarioSeleccionado = "";
+
+    horarioLleno = false;
+
+
+    // Vamos a horarios
+
+    showScreen("schedule");
+
+}
+
+
+
+// ======================================================
+// CONTINUAR DESDE HORARIOS
+// ======================================================
+
+function continueSchedule() {
+
+
+    const selected =
+        document.querySelector(
+            'input[name="horario"]:checked'
+        );
+
+
+    // Si no seleccionó horario
+
+    if (!selected) {
+
+
+        alert(
+            "Debe seleccionar una opción."
+        );
+
+
+        return;
+
+    }
+
+
+
+    // Guardamos el horario
+
+    horarioSeleccionado =
+        selected.value;
+
+
+
+    // Detectamos internamente
+    // si está lleno
+
+    if (
+        horarioSeleccionado === "lleno"
+    ) {
+
+        horarioLleno = true;
+
+    }
+
+    else {
+
+        horarioLleno = false;
+
+    }
+
+
+
+    // Mostramos la información
+    // del curso
+
+    document
+        .getElementById(
+            "nombreCursoAgregado"
+        )
+        .textContent =
+            cursoSeleccionado;
+
+
+    document
+        .getElementById(
+            "codigoCursoAgregado"
+        )
+        .textContent =
+            codigoCurso;
+
+
+    document
+        .getElementById(
+            "horarioCursoAgregado"
+        )
+        .textContent =
+            selected.dataset.horario;
+
+
+
+    // También actualizamos
+    // la pantalla de confirmación
+
+    document
+        .getElementById(
+            "nombreCursoConfirmacion"
+        )
+        .textContent =
+            cursoSeleccionado;
+
+
+    document
+        .getElementById(
+            "codigoCursoConfirmacion"
+        )
+        .textContent =
+            codigoCurso;
+
+
+    document
+        .getElementById(
+            "horarioCursoConfirmacion"
+        )
+        .textContent =
+            selected.dataset.horario;
+
+
+
+    // IMPORTANTE:
+    //
+    // Aquí NO mostramos ningún error
+    // aunque el horario tenga 0 vacantes.
+    //
+    // Esto representa el problema
+    // del prototipo ANTES.
+
+    showScreen("added");
+
+}
+
+
+
+// ======================================================
+// FINALIZAR MATRÍCULA
+// ======================================================
+
+function finishEnrollment() {
+
+    /*
+    ==========================================
+    PROBLEMA DEL PROTOTIPO ANTES
+
+    Cuando ocurre un error, el sistema
+    muestra un código técnico que el usuario
+    no puede comprender fácilmente.
+    ==========================================
+    */
+
+    if (horarioLleno === true) {
+
+        // Problema:
+        // el horario lleno recién se detecta
+        // al final del proceso.
+
+        showScreen("lateWarning");
+
+    } else {
+
+        // Error técnico que aparece al finalizar
+        // la matrícula.
+
+        showScreen("error");
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
